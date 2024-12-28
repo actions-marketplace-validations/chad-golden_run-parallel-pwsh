@@ -1,0 +1,18 @@
+name: 'PowerShell (pwsh.exe) Parallel Step Executor'
+description: 'Executes PowerShell 7+ (pwsh.exe) commands in parallel with dependency management'
+author: "chad-golden"
+branding:
+  icon: terminal
+  color: purple
+inputs:
+  steps:
+    description: 'Steps to execute in parallel'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - name: Run Parallel Executor
+      shell: pwsh
+      env:
+        STEPS_CONFIG: ${{ inputs.steps }}
+      run: ${{ github.action_path }}/run.ps1

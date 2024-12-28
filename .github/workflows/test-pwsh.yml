@@ -1,0 +1,144 @@
+name: Test pwsh
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '**/*pwsh*.yml'
+      - 'src/pwsh/**'
+      - 'pwsh/**'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '**/*pwsh*.yml'
+      - 'src/pwsh/**'
+      - 'pwsh/**'
+  workflow_dispatch:
+
+jobs:
+  unit-tests:
+    name: Run Unit Tests
+    strategy:
+      fail-fast: false
+      matrix:
+        runs-on:
+          - windows-latest
+          - ubuntu-latest
+    runs-on: ${{ matrix.runs-on }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run Unit Tests
+        working-directory: pwsh
+        shell: pwsh
+        run: |
+          if (-not (Get-Module -ListAvailable -Name Pester)) {
+            Install-Module -Name Pester -Force -SkipPublisherCheck
+          }
+          Import-Module Pester
+          Invoke-Pester ./helpers.tests.ps1 -CI
+
+  workflow-test:
+    needs: [unit-tests]
+    name: Workflow Test
+    strategy:
+      fail-fast: false
+      matrix:
+        runs-on:
+          - windows-latest
+          - ubuntu-latest
+    runs-on: ${{ matrix.runs-on }}
+    steps:
+      - name: Sample Build Process
+        uses: chad-golden/actions-parallel/pwsh@main
+        with:
+          steps: |
+            setup-tool-x:
+              run: |
+                Write-Output "Setting up tool X..."
+                Start-Sleep -Milliseconds 400
+
+            setup-tool-y:
+              run: |
+                Write-Output "Setting up tool Y..."
+                Start-Sleep -Milliseconds 700
+
+            setup-tool-z:
+              run: |
+                Write-Output "Setting up tool Z..."
+                Start-Sleep -Milliseconds 500
+
+            add-tools-to-path:
+              needs: [setup-tool-x, setup-tool-y, setup-tool-z]
+              run: |
+                Write-Host "Added tools to PATH"
+
+            build:
+              needs: [add-tools-to-path]
+              run: |
+                Start-Sleep -Seconds 1
+
+            test-group-1:
+              needs: [build]
+              run: |
+                Start-Sleep -Milliseconds 250
+
+            test-group-2:
+              needs: [build]
+              run: |
+                Start-Sleep -Milliseconds 400
+
+            deploy:
+              needs: [test-group-1, test-group-2]
+              run: |
+                Start-Sleep -Seconds 3
+
+            summary:
+              needs: [deploy]
+              run: |
+                Write-Output "Summary uploaded"
+
+  workflow-test-failure:
+    needs: [unit-tests]
+    name: Workflow Test Failure
+    continue-on-error: true
+    strategy:
+      fail-fast: false
+      matrix:
+        runs-on:
+          - windows-latest
+          - ubuntu-latest
+    runs-on: ${{ matrix.runs-on }}
+    steps:
+      - name: Sample Build Process
+        uses: chad-golden/actions-parallel/pwsh@main
+        continue-on-error: true
+        with:
+          steps: |
+            pre-build:
+              run: |
+                Write-Output 'Doing pre-build things'
+                Start-Sleep -Seconds 1
+
+            build:
+              needs: [pre-build]
+              run: |
+                Start-Sleep -Seconds 2
+
+            test-group-1:
+              needs: [build]
+              run: |
+                Start-Sleep -Seconds 1
+
+            test-group-2:
+              needs: [build]
+              run: |
+                Start-Sleep -Seconds 2
+                throw 'Unexpected failure'
+
+            summary:
+              needs: [test-group-1, test-group-2]
+              run: |
+                Write-Output "Summary uploaded"
