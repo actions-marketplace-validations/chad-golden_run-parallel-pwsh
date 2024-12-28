@@ -1,4 +1,5 @@
-[![Test pwsh](https://github.com/chad-golden/actions-parallel-steps/actions/workflows/test-pwsh.yml/badge.svg)](https://github.com/chad-golden/actions-parallel-steps/actions/workflows/test-pwsh.yml)
+[![Tests](https://github.com/chad-golden/actions-parallel-steps/actions/workflows/test-pwsh.yml/badge.svg)](https://github.com/chad-golden/actions-parallel-steps/actions/workflows/test-pwsh.yml)
+[![Release](https://img.shields.io/github/release/chad-golden/actions-parallel-steps.svg)](https://github.com/chad-golden/actions-parallel-steps/releases)
 
 # Parallel Job Step Execution (pwsh.exe)
 The purpose of this action is to provide parallel script execution at the job step level within GitHub Actions to decrease the amount of time it takes to run workflows. This action is intended to support `pwsh` scripts only.
