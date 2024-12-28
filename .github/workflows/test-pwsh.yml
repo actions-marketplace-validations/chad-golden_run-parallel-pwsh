@@ -52,7 +52,7 @@ jobs:
     runs-on: ${{ matrix.runs-on }}
     steps:
       - name: Sample Build Process
-        uses: chad-golden/actions-parallel/pwsh@main
+        uses: chad-golden/actions-parallel-steps/pwsh@main
         with:
           steps: |
             setup-tool-x:
@@ -113,7 +113,7 @@ jobs:
     runs-on: ${{ matrix.runs-on }}
     steps:
       - name: Sample Build Process
-        uses: chad-golden/actions-parallel/pwsh@main
+        uses: chad-golden/actions-parallel-steps/pwsh@main
         continue-on-error: true
         with:
           steps: |
