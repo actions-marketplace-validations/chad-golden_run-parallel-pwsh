@@ -12,7 +12,7 @@ my-job:
   runs-on: ubuntu-latest
   steps:
   - name: Sample Build Process
-    uses: chad-golden/run-parallel-pwsh/pwsh@v1
+    uses: chad-golden/run-parallel-pwsh@v1
     with:
       steps: |
         install-tool-x:
