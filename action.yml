@@ -15,4 +15,4 @@ runs:
       shell: pwsh
       env:
         STEPS_CONFIG: ${{ inputs.steps }}
-      run: ${{ github.action_path }}/run.ps1
+      run: ${{ github.action_path }}/scripts/run.ps1
