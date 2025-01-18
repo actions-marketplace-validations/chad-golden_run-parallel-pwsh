@@ -1,18 +1,18 @@
-[![Tests](https://github.com/chad-golden/actions-parallel-steps/actions/workflows/test-pwsh.yml/badge.svg)](https://github.com/chad-golden/actions-parallel-steps/actions/workflows/test-pwsh.yml)
-[![Release](https://img.shields.io/github/release/chad-golden/actions-parallel-steps.svg)](https://github.com/chad-golden/actions-parallel-steps/releases)
+[![Tests](https://github.com/chad-golden/run-parallel-pwsh/actions/workflows/test-pwsh.yml/badge.svg)](https://github.com/chad-golden/run-parallel-pwsh/actions/workflows/test-pwsh.yml)
+[![Release](https://img.shields.io/github/release/chad-golden/run-parallel-pwsh.svg)](https://github.com/chad-golden/run-parallel-pwsh/releases)
 
 # Parallel Job Step Execution (pwsh.exe)
 The purpose of this action is to provide parallel script execution at the job step level within GitHub Actions to decrease the amount of time it takes to run workflows. This action is intended to support `pwsh` scripts only.
 
 ## Usage
-To run parallel tasks within a single step, you can provide a simplistic YAML syntax to orchestrate your parallel task execution. See [the test workflow](https://github.com/chad-golden/actions-parallel-steps/blob/main/.github/workflows/test-pwsh.yml) for more examples.
+To run parallel tasks within a single step, you can provide a simplistic YAML syntax to orchestrate your parallel task execution. See [the test workflow](https://github.com/chad-golden/run-parallel-pwsh/blob/main/.github/workflows/test-pwsh.yml) for more examples.
 
 ```yaml
 my-job:
   runs-on: ubuntu-latest
   steps:
   - name: Sample Build Process
-    uses: chad-golden/actions-parallel-steps/pwsh@main
+    uses: chad-golden/run-parallel-pwsh/pwsh@v1
     with:
       steps: |
         install-tool-x:
